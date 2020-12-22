@@ -4,17 +4,12 @@ const axios = require('axios');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 
-// TODO: use environment variables for these and store them somewhere safe
-const STYTCH_PROJECT_ID = 'project-live-11111111-1111-1111-1111-111111111111';
-const STYTCH_SECRET = 'secret-live-11111111111111111111111111111111';
-const SESSION_SECRET = 'CREATE_A_SESSION_SECRET';
-
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({ 
-	secret: SESSION_SECRET,
+	secret: process.env.SESSION_SECRET,
 	cookie: { maxAge: 60000 },
 	resave: true,
 	saveUninitialized: false
@@ -49,7 +44,7 @@ app.get('/authenticate', function (req, res) {
 	var token = req.query.token;
 	axios.post(`https://api.stytch.com/v1/magic_links/${token}/authenticate`, {}, {
 		headers: {
-			Authorization: 'Basic ' + Buffer.from(`${STYTCH_PROJECT_ID}:${STYTCH_SECRET}`).toString('base64')
+			Authorization: 'Basic ' + Buffer.from(`${process.env.STYTCH_PROJECT_ID}:${process.env.STYTCH_SECRET}`).toString('base64')
     },
 	})
 	.then(response => {
