@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login | Stytch example</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <script src="https://js.stytch.com/stytch.js"></script>
+    <div class="App">
+      <div class="Sign-in-container">
+        <h2>Sign up or log in</h4>
+        <div id="signup-magic-link"></div>
+      </div>
+    </div>
+    <script>
+      // Initialize Stytch.js with your public token. You can find this in your Stytch dashboard under API Keys.
+      var STYTCH_PUBLIC_TOKEN = "public-token-live-11111111111111111111";
+      var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
+        onEvent: (response) => {
+          // We recommend you save the userId into your DB if this is true
+          if (response.data.type === 'USER_EVENT_TYPE' && response.data.created === true) {
+            try {
+              fetch('/users', { 
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ userId: response.data.userID }),
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              });
+            } catch(e) {
+              console.log(e);
+            }
+          }
+        },
+        onSuccess: (message) => {
+           // Handle a successfully sent magic link
+           console.log(message);
+        },
+        onError: (message) => {
+          console.log(message);
+        }
+      });
+      var style = {
+        fontFamily: '"Helvetica New", Helvetica, sans-serif',
+        textAlign: 'center',
+        buttonColor: '#106ee9',
+        fullWidth: true,
+      };
+      stytch.magicLinkMount({
+        elementId: "#signup-magic-link", 
+        style: style,
+        options: {
+          magicLinkUrl: 'http://localhost:9000/authenticate',
+        },
+      });      
+    </script>
+  </body>
+</html>
