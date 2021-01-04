@@ -44,7 +44,7 @@ app.post('/users', function (req, res) {
 
 app.get('/authenticate', function (req, res) {
 	var token = req.query.token;
-	axios.post(`https://test.stytch.com/v1/magic_links/${token}/authenticate`, {}, {
+	axios.post(`https://api.stytch.com/v1/magic_links/${token}/authenticate`, {}, {
 		headers: {
 			Authorization: 'Basic ' + Buffer.from(`${process.env.STYTCH_PROJECT_ID}:${process.env.STYTCH_SECRET}`).toString('base64')
     },
