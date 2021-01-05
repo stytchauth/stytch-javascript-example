@@ -1,5 +1,5 @@
-# stytch-html-express-demo
-An example app using the Stytch Javascript SDK in HTML and Express.js
+# stytchjs-html-express
+An example app using the Stytch Javascript SDK with HTML and Express.js
 
 # Running the app
 1. Make sure you have node installed: `brew install node`
