@@ -9,7 +9,7 @@
     <div class="App">
       <div class="Sign-in-container">
         <h2>Sign up or log in</h4>
-        <div id="signup-magic-link"></div>
+        <div id="magic-link"></div>
       </div>
     </div>
     <script>
@@ -33,12 +33,12 @@
             }
           }
         },
-        onSuccess: (message) => {
-           // Handle a successfully sent magic link
-           console.log(message);
+        onSuccess: (response) => {
+            // Handle a successfully sent magic link
+            console.log(response);
         },
-        onError: (message) => {
-          console.log(message);
+        onError: (response) => {
+          console.log(response);
         }
       });
       var style = {
@@ -46,14 +46,23 @@
         textAlign: 'center',
         buttonColor: '#106ee9',
         fullWidth: true,
+        inputTextColor: '#090909'
       };
-      stytch.magicLinkMount({
-        elementId: "#signup-magic-link", 
-        style: style,
-        options: {
-          magicLinkUrl: 'http://localhost:9000/authenticate',
+      var loginOrCreateUserConfig = {
+        loginConfig: {
+          magicLinkUrl: "http://localhost:9000/authenticate",
+          expirationMinutes: 30,
         },
-      });      
+        createUserConfig: {
+          magicLinkUrl: "http://localhost:9000/authenticate",
+          expirationMinutes: 30,
+        },
+    };
+      stytch.mountLoginOrCreateUser({
+        elementId: "#magic-link",
+        style: style,
+        config: loginOrCreateUserConfig
+      });  
     </script>
   </body>
 </html>
