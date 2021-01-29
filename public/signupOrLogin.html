@@ -17,8 +17,8 @@
       var STYTCH_PUBLIC_TOKEN = "public-token-test-111111111111";
       var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
         onEvent: (response) => {
-          // We recommend you save the userId into your DB if this is true
-          if (response.data.type === 'USER_EVENT_TYPE' && response.data.created === true) {
+          // We recommend saving the stytch_id to your user.
+          if (response.data.type === 'USER_EVENT_TYPE') {
             try {
               fetch('/users', { 
                 method: 'POST',
