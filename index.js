@@ -38,7 +38,7 @@ app.get('/home', function (req, res) {
 
 app.post('/users', function (req, res) {
 	var stytchUserId = req.body.userId;
-	// TODO: Save stytchUserId with your user record in your app's storage
+	// TODO: If the user is new, save stytchUserId with your user record in your app's storage
 	res.send(`Created user with stytchUserId: ${stytchUserId}`);
 });
 
