@@ -1,7 +1,9 @@
 # stytchjs-html-express
+
 An example app using the Stytch Javascript SDK with HTML and Express.js
 
 # Running the app
+
 1. Make sure you have node installed: `brew install node`
 1. Install dependencies: `npm install`
 1. Add your Stytch API credentials from the API keys tab in your Stytch dashboard. You'll need to update `STYTCH_PROJECT_ID` and `STYTCH_SECRET` in your `.env` file with your project ID and secret from the dashboard.
