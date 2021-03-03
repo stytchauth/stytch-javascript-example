@@ -23,7 +23,7 @@
               fetch('/users', { 
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ userId: data.eventData.userID }),
+                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email, }),
                 headers: {
                   'Content-Type': 'application/json'
                 },
