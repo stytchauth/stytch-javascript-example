@@ -16,14 +16,14 @@
       // Initialize Stytch.js with your public token. You can find this in your Stytch dashboard under API Keys.
       var STYTCH_PUBLIC_TOKEN = "public-token-test-111111111111";
       var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
-        onEvent: (response) => {
+        onEvent: (data) => {
           // We recommend saving the stytch_id to your user.
-          if (response.data.type === 'USER_EVENT_TYPE') {
+          if (data.eventData.type === 'USER_EVENT_TYPE') {
             try {
               fetch('/users', { 
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ userId: response.data.userID }),
+                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email, }),
                 headers: {
                   'Content-Type': 'application/json'
                 },
