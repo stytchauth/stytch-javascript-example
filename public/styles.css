@@ -1,6 +1,19 @@
+body {
+  background-color: #E5E5E5;
+}
+
+.header {
+  position: absolute;
+  height: 59px;
+  width: 100%;
+  left: -1px;
+  top: 0px;
+  background: #0577CA;
+}
+
 .App {
   text-align: center;
-  font-family: "Helvetica New", Helvetica, sans-serif;
+  font-family: 'IBM Plex Sans';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +21,14 @@
 }
 
 .Sign-in-container {
-  max-width: 400px;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
+  background-color: #FFFFFF;
+  width: 450px;
+  height: 375px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #EBEBEB;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  border-radius: 9px
 }
