@@ -2,33 +2,32 @@ body {
   background-color: #E5E5E5;
 }
 
-.header {
-  position: absolute;
-  height: 59px;
-  width: 100%;
-  left: -1px;
-  top: 0px;
-  background: #0577CA;
+.App {
+  text-align: Center;
+  font-family: 'IBM Plex Sans';
+  display: Flex;
+  justify-content: Center;
+  align-items: Center;
+  height: 100vh;
 }
 
-.App {
-  text-align: center;
-  font-family: 'IBM Plex Sans';
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+header {
+  position: Absolute;
+  height: 60px;
+  width: 100%;
+  top: 0px;
+  background: #0577CA;
 }
 
 .Sign-in-container {
   background-color: #FFFFFF;
   width: 450px;
   height: 375px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #EBEBEB;
-  box-sizing: border-box;
+  display: Flex;
+  justify-content: Center;
+  align-items: Center;
+  border: 1px Solid #EBEBEB;
+  box-sizing: Border-Box;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
-  border-radius: 9px
+  border-radius: 9px;
 }
