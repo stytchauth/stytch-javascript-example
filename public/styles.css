@@ -5,7 +5,7 @@ body {
 .App {
   align-items: center;
   display: flex;
-  font-family: 'Helvetica';
+  font-family: "Helvetica New", Helvetica, sans-serif;
   height: 100vh;
   justify-content: center;
   text-align: center;
