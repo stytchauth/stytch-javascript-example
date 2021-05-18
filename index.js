@@ -44,15 +44,16 @@ app.post("/users", async function (req, res) {
   const email = req.body.email;
 
   // Query the user by stytch_id and email
-  const query = `SELECT id, email FROM user WHERE stytch_id = "${stytchUserId}" AND email = "${email}"`;
-  console.log(database.db);
-  database.db.all(query, [], (err, rows) => {
+  const query = 'SELECT id, email FROM user WHERE stytch_id = ? AND email = ?';
+  const params = [stytchUserId, email]
+  database.db.all(query, params, (err, rows) => {
     if (err) return res.status(400).send(err);
 
     // If user is not found, create a new user with stytch_id and email
     if (rows.length === 0) {
-      const insertQuery = `INSERT into user (email, stytch_id) VALUES ("${email}", "${stytchUserId}")`;
-      database.db.run(insertQuery, (result, err) => {
+      const insertQuery = 'INSERT INTO user (email, stytch_id) VALUES (?, ?)';
+      const params = [email, stytchUserId];
+      database.db.run(insertQuery, params, (result, err) => {
         if (err) {
           return res.status(400).send(err);
         } else {
