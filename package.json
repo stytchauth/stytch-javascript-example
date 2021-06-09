@@ -21,7 +21,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.1",
+    "express-session": "^1.17.2",
     "ini": "^2.0.0",
     "path": "^0.12.7",
     "sqlite3": "^5.0.2"
