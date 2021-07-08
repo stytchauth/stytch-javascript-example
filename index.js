@@ -1,11 +1,17 @@
 const express = require("express");
 const path = require("path");
-const axios = require("axios");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const stytch = require("stytch");
 const database = require("./database.js");
 
 require("dotenv").config();
+
+const client = new stytch.Client({
+  project_id: process.env.STYTCH_PROJECT_ID,
+  secret: process.env.STYTCH_SECRET,
+  env: stytch.envs.test,
+});
 
 const app = express();
 
@@ -70,20 +76,7 @@ app.post("/users", async function (req, res) {
 });
 app.get("/authenticate", function (req, res) {
   var token = req.query.token;
-  axios
-    .post(
-      `https://test.stytch.com/v1/magic_links/${token}/authenticate`,
-      {},
-      {
-        headers: {
-          Authorization:
-            "Basic " +
-            Buffer.from(
-              `${process.env.STYTCH_PROJECT_ID}:${process.env.STYTCH_SECRET}`
-            ).toString("base64"),
-        },
-      }
-    )
+  client.authenticateMagicLink(token)
     .then((response) => {
       req.session.authenticated = true;
       req.session.save(function (err) {
