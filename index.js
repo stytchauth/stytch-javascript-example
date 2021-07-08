@@ -76,7 +76,7 @@ app.post("/users", async function (req, res) {
 });
 app.get("/authenticate", function (req, res) {
   var token = req.query.token;
-  client.authenticateMagicLink(token)
+  client.magicLinks.authenticate(token)
     .then((response) => {
       req.session.authenticated = true;
       req.session.save(function (err) {
