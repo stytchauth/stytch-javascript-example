@@ -24,7 +24,7 @@
     "ini": "^2.0.0",
     "path": "^0.12.7",
     "sqlite3": "^5.0.2",
-    "stytch": "^3.0.0-beta.3"
+    "stytch": "^3.0.0-beta"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
