@@ -43,29 +43,22 @@
       });
       var style = {
         fontFamily: '"Helvetica New", Helvetica, sans-serif',
-        borderRadius: 500,
-        button: { 
-          backgroundColor: '#0577CA',
-        },
-        input: {
-          textColor: '#090909'
-        },
-        width: '321px'
+        width: '321px',
+        primaryColor: '#0577CA',
       };
       var loginOrCreateUserConfig = {
-        loginConfig: {
-          magicLinkUrl: "http://localhost:9000/authenticate",
-          expirationMinutes: 30,
-        },
-        createUserConfig: {
-          magicLinkUrl: "http://localhost:9000/authenticate",
-          expirationMinutes: 30,
-        },
-    };
-      stytch.mountLoginOrCreateUser({
+        products: ['emailMagicLinks'],
+        emailMagicLinksOptions: {
+          loginRedirectURL: "http://localhost:9000/authenticate",
+          loginExpirationMinutes:30,
+          signupRedirectURL: "http://localhost:9000/authenticate",
+          signupExpirationMinutes: 30,
+        }
+      };
+      stytch.mount({
         elementId: "#magic-link",
         style: style,
-        config: loginOrCreateUserConfig
+        loginOrSignupView: loginOrCreateUserConfig
       });  
     </script>
   </body>
