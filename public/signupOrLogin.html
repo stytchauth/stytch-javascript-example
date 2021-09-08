@@ -46,11 +46,11 @@
         width: '321px',
         primaryColor: '#0577CA',
       };
-      var loginOrCreateUserConfig = {
+      var magicLinkDefaults = {
         products: ['emailMagicLinks'],
         emailMagicLinksOptions: {
           loginRedirectURL: "http://localhost:9000/authenticate",
-          loginExpirationMinutes:30,
+          loginExpirationMinutes: 30,
           signupRedirectURL: "http://localhost:9000/authenticate",
           signupExpirationMinutes: 30,
         }
@@ -58,7 +58,7 @@
       stytch.mount({
         elementId: "#magic-link",
         style: style,
-        loginOrSignupView: loginOrCreateUserConfig
+        loginOrSignupView: magicLinkDefaults
       });  
     </script>
   </body>
