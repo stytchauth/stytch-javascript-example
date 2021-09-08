@@ -90,4 +90,7 @@ app.get("/authenticate", function (req, res) {
     });
 });
 
-app.listen(9000);
+app.listen(9000, () => {
+  console.log('The application is listening on port 9000.');
+  console.log('You can now view it in the browser: \033[1m\033[4mhttp://localhost:9000\033[0m');
+});
