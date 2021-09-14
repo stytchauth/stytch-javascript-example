@@ -5,6 +5,7 @@ body {
 .App {
   align-items: center;
   display: flex;
+  flex-direction: column;
   font-family: "Helvetica New", Helvetica, sans-serif;
   height: 100vh;
   justify-content: center;
@@ -30,4 +31,25 @@ header {
   height: 375px;
   justify-content: center;
   width: 450px;
+}
+
+.Logout-Button {
+  display: block;
+  background: #0577CA;
+  color: white;
+  padding: 6px 16px;
+  min-width: 80px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: none;
+  cursor:pointer;
+}
+
+#code {
+  text-align: left;
+  font-family: monospace;
+  white-space: pre-wrap;
+  background: white;
+  border-radius: 4px;
+  padding: 12px 8px;
 }

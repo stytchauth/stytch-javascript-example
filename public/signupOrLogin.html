@@ -7,23 +7,24 @@
   <body>
     <script src="https://js.stytch.com/stytch.js"></script>
     <div class="App">
-      <header className="App-header"></header>
+      <header class="App-header"></header>
       <div class="Sign-in-container">
         <div id="magic-link"></div>
       </div>
     </div>
     <script>
-      // Initialize Stytch.js with your public token. You can find this in your Stytch dashboard under API Keys.
-      var STYTCH_PUBLIC_TOKEN = "public-token-test-111111111111";
-      var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
+      /* Initialize Stytch.js by adding your public token to the .env file.
+       You can find this in your Stytch dashboard under API Keys. */
+      const STYTCH_PUBLIC_TOKEN = "{{STYTCH_PUBLIC_TOKEN}}";
+      const stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
         onEvent: (data) => {
-          // We recommend saving the stytch_id to your user.
+          /* We recommend saving the stytch_id to your user. */
           if (data.eventData.type === 'USER_EVENT_TYPE') {
             try {
-              fetch('/users', { 
+              fetch('/users', {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email, }),
+                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email}),
                 headers: {
                   'Content-Type': 'application/json'
                 },
@@ -34,19 +35,19 @@
           }
         },
         onSuccess: (response) => {
-            // Handle a successfully sent magic link
+            /* Handle a successfully sent magic link */
             console.log(response);
         },
         onError: (response) => {
           console.log(response);
         }
       });
-      var style = {
+      const style = {
         fontFamily: '"Helvetica New", Helvetica, sans-serif',
         width: '321px',
         primaryColor: '#0577CA',
       };
-      var magicLinkDefaults = {
+      const magicLinkDefaults = {
         products: ['emailMagicLinks'],
         emailMagicLinksOptions: {
           loginRedirectURL: "http://localhost:9000/authenticate",
@@ -59,7 +60,7 @@
         elementId: "#magic-link",
         style: style,
         loginOrSignupView: magicLinkDefaults
-      });  
+      });
     </script>
   </body>
 </html>

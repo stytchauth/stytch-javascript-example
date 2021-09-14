@@ -6,8 +6,20 @@
   </head>
   <body>
     <div class="App">
-      <header className="App-header"></header>
-      <h2>Welcome back! 🎉</h2> 
+      <h2>Welcome back! 🎉</h2>
+      <p>Here is the data we have from your session:</p>
+      <p id="code">
+        LOCAL_USER_ID: "{{LOCAL_USER_ID}}"
+        <br/>
+        EMAIL: "{{EMAIL}}"
+        <br/>
+        STYTCH_USER_ID: "{{STYTCH_USER_ID}}"
+        <br/>
+        EXPIRES_IN: "{{EXPIRES_IN}}"
+      </p>
+      <form method="get" action="/logout">
+        <button type="submit" class="Logout-Button">Log Out</button>
+      </form>
     </div>
   </body>
 </html>

@@ -1,9 +1,16 @@
 const express = require("express");
 const path = require("path");
+const sprightly = require('sprightly');
 const session = require("express-session");
-const bodyParser = require("body-parser");
+
+const cookieParser = require('cookie-parser');
 const stytch = require("stytch");
-const database = require("./database.js");
+
+const {
+  findUserByIdAndEmail,
+  findUserById,
+  insertUser,
+} = require("./database.js");
 
 require("dotenv").config();
 
@@ -14,83 +21,154 @@ const client = new stytch.Client({
 });
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.engine('html', sprightly);
+app.set('views', './public');
+app.set('view engine', 'html');
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 60000 },
+    cookie: {maxAge: 20 * 60 * 1000 /* Twenty minutes in milliseconds */},
     resave: true,
     saveUninitialized: false,
   })
 );
 
-app.use(bodyParser.json());
+/**
+ * The regular homepage view.
+ * The user can only access this if they are already authenticated and have an active session.
+ * Otherwise, they are redirected to /signupOrLogin
+ */
+app.get("/",
+  ensureAuthenticated,
+  async function (req, res) {
+    const {session} = req.session.stytch;
+    const user = await findUserById(session.user_id);
+    return res.render('home.html', {
+      LOCAL_USER_ID: user.id,
+      EMAIL: user.email,
+      STYTCH_USER_ID: session.user_id,
+      EXPIRES_IN: `${session.expires_at - Date.now()}ms`,
+    });
+  });
 
-app.get("/", function (req, res) {
-  if (req.session.authenticated) {
-    res.redirect("/home");
-    return;
+/**
+ * The login view.
+ * This view mounts the Stytch SDK for the user to log in with.
+ */
+app.get("/signupOrLogin",
+  function (req, res) {
+    return res.render('signupOrLogin.html', {
+      STYTCH_PUBLIC_TOKEN: process.env.STYTCH_PUBLIC_TOKEN
+    });
+  });
+
+app.get("/logout",
+  destroySessionAndEnsureLoggedOut);
+
+/**
+ * The callback for Stytch's magic links.
+ * After the user clicks the link in their email, they will be redirected here.
+ * We must authenticate the token with Stytch before issuing a session.
+ * After the session is issued, the user is logged in!
+ */
+app.get("/authenticate", async function (req, res, next) {
+  const token = req.query.token;
+  if (!token) {
+    return res.redirect('/signupOrLogin');
   }
-  res.sendFile(path.join(__dirname, "public", "signupOrLogin.html"));
+  try {
+    req.session.stytch = await client.magicLinks.authenticate(token, {session_duration_minutes: 20});
+    req.session.save(function (err) {
+      if (err) return next(err);
+      console.log('User has been authenticated and their information is stored in a session. Redirecting to homepage.')
+      res.redirect("/");
+    });
+  } catch (err) {
+    console.error('An error occurred authenticating the magic link token', err);
+    return next(err);
+  }
 });
 
-app.get("/home", function (req, res) {
-  if (!req.session.authenticated) {
-    res.redirect("/");
-    return;
-  }
-
-  res.sendFile(path.join(__dirname, "public", "home.html"));
-});
-
-app.post("/users", async function (req, res) {
+/**
+ * This endpoint keeps track of user creation requests.
+ * You may want to save your users before they complete the login flow.
+ * Subscribe to the onEvent callback from the stytch frontend js client to learn when a user has sent a login email.
+ */
+app.post("/users", async function (req, res, next) {
   const stytchUserId = req.body.userId;
   const email = req.body.email;
-
-  // Query the user by stytch_id and email
-  const query = 'SELECT id, email FROM user WHERE stytch_id = ? AND email = ?';
-  const params = [stytchUserId, email]
-  database.db.all(query, params, (err, rows) => {
-    if (err) return res.status(400).send(err);
-
-    // If user is not found, create a new user with stytch_id and email
-    if (rows.length === 0) {
-      const insertQuery = 'INSERT INTO user (email, stytch_id) VALUES (?, ?)';
-      const params = [email, stytchUserId];
-      database.db.run(insertQuery, params, (result, err) => {
-        if (err) {
-          return res.status(400).send(err);
-        } else {
-          console.log("User created");
-          return res.status(201).send(result);
-        }
-      });
-    } else {
-      // User was already saved in database.
-      console.log("User retrieved");
-      res.status(200).send(rows[0]);
-    }
-  });
-});
-app.get("/authenticate", function (req, res) {
-  var token = req.query.token;
-  client.magicLinks.authenticate(token)
-    .then((response) => {
-      req.session.authenticated = true;
-      req.session.save(function (err) {
-        if (err) console.log(err);
-      });
-      res.redirect("/home");
-    })
-    .catch((error) => {
-      console.log(error);
-      res.send("There was an error authenticating the user.");
-    });
+  try {
+    const {statusCode, user} = await upsertUser(stytchUserId, email);
+    return res.status(statusCode).json(user);
+  } catch (err) {
+    console.error('Unable to upsert user', err);
+    return next(err);
+  }
 });
 
 app.listen(9000, () => {
   console.log('The application is listening on port 9000.');
   console.log('You can now view it in the browser: \033[1m\033[4mhttp://localhost:9000\033[0m');
 });
+
+async function upsertUser(stytchUserId, email) {
+  const user = await findUserByIdAndEmail(stytchUserId, email);
+  if (user) {
+    console.log('User already exists locally!');
+    return {user, statusCode: 200};
+  }
+  console.log('User does not exist, creating a new entry');
+  const createdUser = await insertUser(stytchUserId, email);
+  return {
+    user: createdUser,
+    statusCode: 201
+  }
+}
+
+/**
+ * This express middleware logs out the user - both destroying their local session and in Stytch.
+ */
+function destroySessionAndEnsureLoggedOut(req, res, next) {
+  if (req.session.stytch) {
+    // This request can happen in the background - we don't need to wait for a result before returning a response
+    client.sessions.revoke({session_token: req.session.stytch.session_token})
+      .then(() => console.log('[Background] Stytch session has been destroyed'))
+      .catch(err => console.error('An error occurred revoking the session token', err));
+  }
+
+  return req.session.destroy(function (err) {
+    if (err) return next(err);
+    console.log(`User's local session has been destroyed. Redirecting them to login.`);
+    return res.redirect('/signupOrLogin');
+  });
+}
+
+/**
+ * This express middleware checks to make sure the user has an active session.
+ * This middleware makes a call to Stytch on every request.
+ * You probably want to add a cache for performance. Better support for client-side caching is coming soon!
+ * IMPORTANT! Stytch may return new session tokens over time. We MUST save the returned token values.
+ */
+async function ensureAuthenticated(req, res, next) {
+  if (!req.session.stytch) {
+    console.log('No session found! Redirecting to login.');
+    return destroySessionAndEnsureLoggedOut(req, res, next);
+  }
+  try {
+    req.session.stytch = await client.sessions.authenticate({
+      session_token: req.session.stytch.session_token,
+      session_duration_minutes: 20
+    });
+    console.log(`The user's session is still valid. Request is allowed.`);
+    return next();
+  } catch (err) {
+    console.error(`An error occurred authenticating the user's session`, err);
+    return next(err);
+  }
+}
