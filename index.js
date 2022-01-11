@@ -112,9 +112,9 @@ app.post("/users", async function (req, res, next) {
   }
 });
 
-app.listen(9000, () => {
-  console.log('The application is listening on port 9000.');
-  console.log('You can now view it in the browser: \033[1m\033[4mhttp://localhost:9000\033[0m');
+app.listen(3000, () => {
+  console.log('The application is listening on port 3000.');
+  console.log('You can now view it in the browser: \033[1m\033[4mhttp://localhost:3000\033[0m');
 });
 
 async function upsertUser(stytchUserId, email) {
