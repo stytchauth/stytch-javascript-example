@@ -26,7 +26,7 @@
     "path": "^0.12.7",
     "sprightly": "^1.0.3",
     "sqlite3": "^5.0.2",
-    "stytch": "^3.3.0"
+    "stytch": "^3.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
