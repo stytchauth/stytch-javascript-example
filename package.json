@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "dotenv": "^8.6.0",
+    "ethers": "^5.5.4",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "ini": "^2.0.0",
@@ -27,6 +28,7 @@
     "stytch": "^3.2.1"
   },
   "devDependencies": {
+    "axios": "^0.21.4",
     "nodemon": "^2.0.13"
   }
 }

@@ -4,6 +4,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const stytch = require("stytch");
 const database = require("./database.js");
+const axios = require('axios');
 
 require("dotenv").config();
 
@@ -34,6 +35,43 @@ app.get("/", function (req, res) {
     return;
   }
   res.sendFile(path.join(__dirname, "public", "signupOrLogin.html"));
+});
+
+app.get("/crypto_wallets", function (req, res) {
+  res.status(200).send("hi");
+});
+
+app.post("/crypto_wallets/authenticate/start", function (req, res) {
+  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate/start', {
+      crypto_wallet_address: req.body.address,
+      crypto_wallet_type: "ethereum",
+    }, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    auth: {
+      username: "project-live-x",
+      password: "secret-live-x",
+    }}).then(function (response) {
+      return res.status(200).send(response.data)
+    })
+});
+
+app.post("/crypto_wallets/authenticate", function (req, res) {
+  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate', {
+    crypto_wallet_address: req.body.address.toLowerCase(),
+    crypto_wallet_type: "ethereum",
+    signature: req.body.signature,
+  }, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    auth: {
+      username: "project-live-x",
+      password: "secret-live-x",
+    }}).then(function (response) {
+      return res.status(200).send(response.data)
+  })
 });
 
 app.get("/home", function (req, res) {

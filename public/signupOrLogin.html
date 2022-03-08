@@ -1,65 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Login | Stytch example</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <script src="https://js.stytch.com/stytch.js"></script>
-    <div class="App">
-      <header className="App-header"></header>
-      <div class="Sign-in-container">
-        <div id="magic-link"></div>
-      </div>
-    </div>
-    <script>
-      // Initialize Stytch.js with your public token. You can find this in your Stytch dashboard under API Keys.
-      var STYTCH_PUBLIC_TOKEN = "public-token-test-111111111111";
-      var stytch = Stytch(STYTCH_PUBLIC_TOKEN, {
-        onEvent: (data) => {
-          // We recommend saving the stytch_id to your user.
-          if (data.eventData.type === 'USER_EVENT_TYPE') {
-            try {
-              fetch('/users', { 
-                method: 'POST',
-                mode: 'cors',
-                body: JSON.stringify({ userId: data.eventData.userId, email: data.eventData.email, }),
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-              });
-            } catch(e) {
-              console.log(e);
-            }
-          }
-        },
-        onSuccess: (response) => {
-            // Handle a successfully sent magic link
-            console.log(response);
-        },
-        onError: (response) => {
-          console.log(response);
-        }
-      });
-      var style = {
-        fontFamily: '"Helvetica New", Helvetica, sans-serif',
-        width: '321px',
-        primaryColor: '#0577CA',
-      };
-      var magicLinkDefaults = {
-        products: ['emailMagicLinks'],
-        emailMagicLinksOptions: {
-          loginRedirectURL: "http://localhost:9000/authenticate",
-          loginExpirationMinutes: 30,
-          signupRedirectURL: "http://localhost:9000/authenticate",
-          signupExpirationMinutes: 30,
-        }
-      };
-      stytch.mount({
-        elementId: "#magic-link",
-        style: style,
-        loginOrSignupView: magicLinkDefaults
-      });  
-    </script>
-  </body>
+<head>
+  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript" ></script>
+</head>
+<body>
+<button id="button">Login with MetaMask</button>
+<script type="module">
+    import {login} from './test.js'
+
+    document.querySelector('#button').addEventListener('click', login)
+</script>
+</body>
 </html>
