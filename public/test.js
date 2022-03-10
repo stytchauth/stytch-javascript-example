@@ -27,10 +27,6 @@ export async function login() {
         console.log(signature)
         return signature
     }).then((signature) => {
-        let smallSignature = signature.substring(2)
-        console.log(smallSignature)
-        return smallSignature
-    }).then((signature) => {
         fetch("http://localhost:9000/crypto_wallets/authenticate", {
             method: "POST",
             mode: 'cors',

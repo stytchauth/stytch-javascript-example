@@ -59,7 +59,7 @@ app.post("/crypto_wallets/authenticate/start", function (req, res) {
 
 app.post("/crypto_wallets/authenticate", function (req, res) {
   axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate', {
-    crypto_wallet_address: req.body.address.toLowerCase(),
+    crypto_wallet_address: req.body.address,
     crypto_wallet_type: "ethereum",
     signature: req.body.signature,
   }, {
