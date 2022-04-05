@@ -1,10 +1,7 @@
 export async function login() {
-    await window.ethereum.request({
-        method: 'eth_requestAccounts',
-    });
-    let provider = new ethers.providers.Web3Provider(window.ethereum)
-    let [address] = await provider.listAccounts()
 
+    const resp = await window.solana.connect();
+    let address = resp.publicKey.toString()
     console.log(address)
 
     await fetch("http://localhost:9000/crypto_wallets/authenticate/start", {
@@ -21,12 +18,23 @@ export async function login() {
             return Promise.reject(response);
         }
     }).then((data) => {
+        console.log(data)
         return data.challenge;
     }).then((challenge) => {
-        let signature = provider.getSigner().signMessage(challenge);
+        const encodedMessage = new TextEncoder().encode(challenge);
+
+        return window.solana.request({
+            method: "signMessage",
+            params: {
+                message: encodedMessage,
+                display: "utf8",
+            },
+        });
+    }).then((resp) => {
+        console.log(resp)
+        let signature = resp.signature
         console.log(signature)
-        return signature
-    }).then((signature) => {
+
         fetch("http://localhost:9000/crypto_wallets/authenticate", {
             method: "POST",
             mode: 'cors',
@@ -41,7 +49,7 @@ export async function login() {
                 return Promise.reject(response);
             }
         }).then((data) => {
-            console.log(data.status_code)
+            console.log(data)
         })
     });
 }

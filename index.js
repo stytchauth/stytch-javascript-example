@@ -42,33 +42,34 @@ app.get("/crypto_wallets", function (req, res) {
 });
 
 app.post("/crypto_wallets/authenticate/start", function (req, res) {
-  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate/start', {
+  axios.post('http://localhost:8080/v1/crypto_wallets/authenticate/start', {
       crypto_wallet_address: req.body.address,
-      crypto_wallet_type: "ethereum",
+      crypto_wallet_type: "solana",
     }, {
     headers: {
       "Content-Type": "application/json",
     },
     auth: {
-      username: "project-live-x",
-      password: "secret-live-x",
+      username: "project-develop-x",
+      password: "secret-develop-x",
     }}).then(function (response) {
       return res.status(200).send(response.data)
     })
 });
 
 app.post("/crypto_wallets/authenticate", function (req, res) {
-  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate', {
+  axios.post('http://localhost:8080/v1/crypto_wallets/authenticate', {
     crypto_wallet_address: req.body.address,
-    crypto_wallet_type: "ethereum",
+    crypto_wallet_type: "solana",
     signature: req.body.signature,
+    session_duration_minutes: 10,
   }, {
     headers: {
       "Content-Type": "application/json",
     },
     auth: {
-      username: "project-live-x",
-      password: "secret-live-x",
+      username: "project-develop-x",
+      password: "secret-develop-x",
     }}).then(function (response) {
       return res.status(200).send(response.data)
   })
