@@ -42,7 +42,7 @@ app.get("/crypto_wallets", function (req, res) {
 });
 
 app.post("/crypto_wallets/authenticate/start", function (req, res) {
-  axios.post('http://localhost:8080/v1/crypto_wallets/authenticate/start', {
+  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate/start', {
       crypto_wallet_address: req.body.address,
       crypto_wallet_type: "solana",
     }, {
@@ -50,15 +50,15 @@ app.post("/crypto_wallets/authenticate/start", function (req, res) {
       "Content-Type": "application/json",
     },
     auth: {
-      username: "project-develop-x",
-      password: "secret-develop-x",
+      username: "project-live-x",
+      password: "secret-live-x",
     }}).then(function (response) {
       return res.status(200).send(response.data)
     })
 });
 
 app.post("/crypto_wallets/authenticate", function (req, res) {
-  axios.post('http://localhost:8080/v1/crypto_wallets/authenticate', {
+  axios.post('https://api.stytch.com/v1/crypto_wallets/authenticate', {
     crypto_wallet_address: req.body.address,
     crypto_wallet_type: "solana",
     signature: req.body.signature,
@@ -68,8 +68,8 @@ app.post("/crypto_wallets/authenticate", function (req, res) {
       "Content-Type": "application/json",
     },
     auth: {
-      username: "project-develop-x",
-      password: "secret-develop-x",
+      username: "project-live-x",
+      password: "secret-live-x",
     }}).then(function (response) {
       return res.status(200).send(response.data)
   })
