@@ -23,7 +23,7 @@
     "express-session": "^1.17.2",
     "ini": "^2.0.0",
     "path": "^0.12.7",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "^5.0.6",
     "stytch": "^3.2.1"
   },
   "devDependencies": {
