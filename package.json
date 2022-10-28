@@ -27,6 +27,6 @@
     "stytch": "^3.2.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.20"
   }
 }
