@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/stytchauth/stytch-html-express-demo#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.2",
     "dotenv": "^8.6.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-session": "^1.17.2",
     "ini": "^2.0.0",
     "path": "^0.12.7",
