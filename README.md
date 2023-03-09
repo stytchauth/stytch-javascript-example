@@ -1,4 +1,4 @@
-# Stytch Javascript example application
+# Stytch Vanilla JavaScript example application
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/100632220/217049841-b9eeb72a-3e50-4074-839a-e64ee5d4a88c.png" width="750">
