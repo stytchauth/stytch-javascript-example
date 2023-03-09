@@ -1,32 +1,11 @@
 {
-  "name": "stytch-html-express-demo",
+  "name": "stytch-javascript-example",
   "version": "1.0.0",
-  "description": "An example app using the Stytch Javascript SDK in HTML and Express.js",
-  "main": "index.js",
+  "description": "",
   "scripts": {
-    "start": "nodemon index.js"
+    "dev": "http-server -p 3000 -o -a localhost"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stytchauth/stytch-html-express-demo.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/stytchauth/stytch-html-express-demo/issues"
-  },
-  "homepage": "https://github.com/stytchauth/stytch-html-express-demo#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.6.0",
-    "express": "^4.17.1",
-    "express-session": "^1.17.2",
-    "ini": "^2.0.0",
-    "path": "^0.12.7",
-    "sqlite3": "^5.0.2",
-    "stytch": "^3.2.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.13"
+    "http-server": "^14.1.1"
   }
 }

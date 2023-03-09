@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="images/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="An example JavaScript application using Stytch for authentication"
+    />
+    <title>Stytch JavaScript Example</title>
+    <link rel="stylesheet" href="css/stytch.css" />
+  </head>
+  <body>
+    <noscript>
+      The Stytch JavaScript example application requires JavaScript to run.
+    </noscript>
+    <header>
+      <a class="header" href="/">
+        <img src="images/logo.svg" width="190px" />
+      </a>
+      <div class="link-container">
+        <a class="header" target="_blank" href="https://www.stytch.com/docs"
+          >Stytch Docs</a
+        >
+        <a
+          class="header"
+          target="_blank"
+          href="https://github.com/stytchauth/stytch-javascript-example"
+        >
+          <img src="images/github.svg" width="20px" style="margin-right: 4px" />
+          View on GitHub
+        </a>
+      </div>
+    </header>
+    <main id="root">Authenticating...</main>
+  </body>
+  <!-- Use unpkg to pull the most current SDK version without breaking changes (v0.9.X) -->
+  <script
+    type="module"
+    src="https://www.unpkg.com/@stytch/vanilla-js@0.9/dist/index.esm.js"
+  ></script>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/authenticate.js"></script>
+</html>
