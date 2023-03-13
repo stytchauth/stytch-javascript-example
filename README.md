@@ -50,7 +50,7 @@ Follow the steps below to get this application fully functional and running usin
 In your terminal clone the project and install dependencies:
 
 ```bash
-git clone https://github.com/cal-stytch/stytch-javascript-example.git
+git clone https://github.com/stytchauth/stytch-javascript-example.git
 cd stytch-javascript-example
 npm i
 ```
