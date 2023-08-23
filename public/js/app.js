@@ -1,4 +1,4 @@
-import { StytchUIClient } from "https://www.unpkg.com/@stytch/vanilla-js@0.9.5/dist/index.esm.js";
+import { StytchUIClient } from "https://www.unpkg.com/@stytch/vanilla-js@2.0/dist/index.esm.js";
 
 // Replace this value with the public token found it your Stytch Dashboard.
 const STYTCH_PUBLIC_TOKEN =
