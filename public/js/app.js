@@ -35,6 +35,7 @@ const unsubscribe = stytch.session.onChange((session) => {
   if (session) {
     if (PUBLIC_ROUTES.includes(window.location.pathname)) {
       window.location.href = ROUTES.PROFILE;
+      
     }
   } else {
     if (PROTECTED_ROUTES.includes(window.location.pathname)) {
